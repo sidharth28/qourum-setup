@@ -1,0 +1,6 @@
+constellation-node: command not found
+12:15:23 [INFO] Log level is LevelWarn
+Unlocking qdata.key
+12:15:34 [WARN] No TLS certificate or key found; generating tls-client-cert.pem/tls-client-key.pem
+12:15:35 [WARN] No TLS certificate or key found; generating tls-server-cert.pem/tls-server-key.pem
+Unlocked qdata.key

@@ -1,0 +1,71 @@
+## ifneeded "apt-get install libdb-dev libleveldb-dev libsodium-dev zlib1g-dev libtinfo-dev"
+
+echo "[*] Configuring node 1"
+mkdir -p qdata/dd1/{keystore,geth}
+cp raft/static-nodes.json qdata/dd1
+cp keys/key1 qdata/dd1/keystore
+cp raft/nodekey1 qdata/dd1/geth/nodekey
+./geth --datadir qdata/dd1 init genesis.json
+
+./constellation-node --generatekeys=qdata
+
+( echo sid | nohup ./constellation-node --url=http://127.0.0.1:9001/ --port=9001 --workdir=. --socket=tm.ipc --publickeys=qdata.pub --privatekeys=qdata.key --othernodes=http://127.0.0.1:9002/,http://127.0.0.1:9003/,http://127.0.0.1:9004/  --tls=off >> constellation.log 2>&1 ) &
+
+
+echo "[*] Starting node 1"
+PRIVATE_CONFIG=tm.ipc nohup ./ngeth/geth --datadir qdata/dd1 --rpccorsdomain "*" --rpcport 22000 --port 23000 --raftport 21000 --raft --rpc --rpcaddr 0.0.0.0 --ws --wsport 8545 --wsaddr 0.0.0.0 --wsorigins "*" --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum 2>>node.log &
+
+
+
+echo "[*] Configuring node 2"
+mkdir -p qdata/dd2/{keystore,geth}
+cp raft/static-nodes.json qdata/dd2
+cp keys/key2 qdata/dd2/keystore
+cp raft/nodekey2 qdata/dd2/geth/nodekey
+./geth --datadir qdata/dd2 init genesis.json
+
+
+./constellation-node --generatekeys=qdata
+
+( echo sid | nohup ./constellation-node --url=http://127.0.0.1:9002/ --port=9002 --workdir=. --socket=tm.ipc --publickeys=qdata.pub --privatekeys=qdata.key --othernodes=http://127.0.0.1:9001/,http://127.0.0.1:9003/,http://127.0.0.1:9004/  --tls=off >> constellation.log 2>&1 ) &
+
+echo "[*] Starting node 2"
+PRIVATE_CONFIG=tm.ipc nohup ./ngeth/geth --datadir qdata/dd2 --rpccorsdomain "*" --rpcport 22001 --port 23001 --raftport 21001 --raft --rpc --rpcaddr 0.0.0.0 --ws --wsport 8546 --wsaddr 0.0.0.0 --wsorigins "*" --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum 2>>node.log &
+
+
+
+
+
+mkdir -p qdata/dd3/{keystore,geth}
+cp raft/static-nodes.json qdata/dd3
+cp keys/key3 qdata/dd3/keystore
+cp raft/nodekey3 qdata/dd3/geth/nodekey
+./geth --datadir qdata/dd3 init genesis.json
+
+./constellation-node --generatekeys=qdata
+
+( echo sid | nohup ./constellation-node --url=http://127.0.0.1:9003/ --port=9003 --workdir=. --socket=tm.ipc --publickeys=qdata.pub --privatekeys=qdata.key --othernodes=http://127.0.0.1:9002/,http://127.0.0.1:9001/,http://127.0.0.1:9004/  --tls=off >> constellation.log 2>&1 ) &
+
+
+PRIVATE_CONFIG=tm.ipc nohup ./ngeth/geth --datadir qdata/dd3 --rpccorsdomain "*" --rpcport 22002 --port 23002 --raftport 21002 --raft --rpc --rpcaddr 0.0.0.0 --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum 2>>node.log &
+
+
+
+mkdir -p qdata/dd4/{keystore,geth}
+cp raft/static-nodes.json qdata/dd4
+cp keys/key4 qdata/dd4/keystore
+cp raft/nodekey4 qdata/dd4/geth/nodekey
+./geth --datadir qdata/dd4 init genesis.json
+
+./constellation-node --generatekeys=qdata
+
+( echo sid | nohup ./constellation-node --url=http://127.0.0.1:9004/ --port=9004 --workdir=. --socket=tm.ipc --publickeys=qdata.pub --privatekeys=qdata.key --othernodes=http://127.0.0.1:9002/,http://127.0.0.1:9003/,http://127.0.0.1:9001/  --tls=off >> constellation.log 2>&1 ) &
+
+PRIVATE_CONFIG=tm.ipc nohup ./ngeth/geth --datadir qdata/dd4 --rpccorsdomain "*" --rpcport 22003 --port 23003 --raftport 21003 --raft --rpc --rpcaddr 0.0.0.0 --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum 2>>node.log &
+
+
+
+KFal5kZrhodY9oxGaVUua62nO9SE9xH5mMJYbHN6aWo=
+Nb6w31fEKH1FL7t2QL7tmXnoGRR3Wjq2K3d4+3Z6nx0=
++uWAyE6L2Yc46/+nxAxrmZTiXZBXD6PTCgfiTtODN3E=
+45HUXxYuaTnnMiRMCY1suD4K8JHUDkK5d7CgHcLXZkc=
