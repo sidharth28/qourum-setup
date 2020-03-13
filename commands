@@ -14,6 +14,7 @@ cp raft/nodekey1 qdata/dd1/geth/nodekey
 
 echo "[*] Starting node 1"
 PRIVATE_CONFIG=tm.ipc nohup ./ngeth/geth --datadir qdata/dd1 --rpccorsdomain "*" --rpcport 22000 --port 23000 --raftport 21000 --raft --rpc --rpcaddr 0.0.0.0 --ws --wsport 8545 --wsaddr 0.0.0.0 --wsorigins "*" --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum 2>>node.log &
+./geth --datadir qdata/dd1 --rpccorsdomain "*" --rpcport 22000 --port 23000 --raftport 21000 --raft --rpc --rpcaddr 0.0.0.0 --ws --wsport 8545 --wsaddr 0.0.0.0 --wsorigins "*" --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum
 
 
 
@@ -30,7 +31,8 @@ cp raft/nodekey2 qdata/dd2/geth/nodekey
 ( echo sid | nohup ./constellation-node --url=http://127.0.0.1:9002/ --port=9002 --workdir=. --socket=tm.ipc --publickeys=qdata.pub --privatekeys=qdata.key --othernodes=http://127.0.0.1:9001/,http://127.0.0.1:9003/,http://127.0.0.1:9004/  --tls=off >> constellation.log 2>&1 ) &
 
 echo "[*] Starting node 2"
-PRIVATE_CONFIG=tm.ipc nohup ./ngeth/geth --datadir qdata/dd2 --rpccorsdomain "*" --rpcport 22001 --port 23001 --raftport 21001 --raft --rpc --rpcaddr 0.0.0.0 --ws --wsport 8546 --wsaddr 0.0.0.0 --wsorigins "*" --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum 2>>node.log &
+PRIVATE_CONFIG=tm.ipc nohup ./geth --datadir qdata/dd2 --rpccorsdomain "*" --rpcport 22001 --port 23001 --raftport 21001 --raft --rpc --rpcaddr 0.0.0.0 --ws --wsport 8546 --wsaddr 0.0.0.0 --wsorigins "*" --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum 2>>node.log &
+./geth --datadir qdata/dd2 --rpccorsdomain "*" --rpcport 22001 --port 23001 --raftport 21001 --raft --rpc --rpcaddr 0.0.0.0 --ws --wsport 8546 --wsaddr 0.0.0.0 --wsorigins "*" --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum
 
 
 
